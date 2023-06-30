@@ -1,0 +1,67 @@
+
+Testowanie widoków
+
+
+from django.test import TestCase
+from django.urls import reverse
+
+class MyViewTests(TestCase):
+    def test_my_view(self):
+        url = reverse('my-view')
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'my_template.html')
+        # Dodaj więcej asercji w zależności od oczekiwanych rezultatów
+
+    def test_other_view(self):
+        url = reverse('other-view')
+        response = self.client.post(url, {'param': 'value'})
+        self.assertEqual(response.status_code, 302)
+        self.assertRedirects(response, reverse('success-view'))
+        # Dodaj więcej asercji w zależności od oczekiwanych rezultatów
+		
+Testowanie modeli
+
+from django.test import TestCase
+from myapp.models import MyModel
+
+class MyModelTests(TestCase):
+    def setUp(self):
+        self.my_model = MyModel.objects.create(name='Test')
+
+    def test_model_name(self):
+        self.assertEqual(self.my_model.name, 'Test')
+        # Dodaj więcej asercji w zależności od oczekiwanych rezultatów
+
+    def test_model_str(self):
+        self.assertEqual(str(self.my_model), 'Test')
+        # Dodaj więcej asercji w zależności od oczekiwanych rezultatów
+		
+Testowanie formularzy
+
+from django.test import TestCase
+from myapp.forms import MyForm
+
+class MyFormTests(TestCase):
+    def test_form_valid(self):
+        form_data = {'name': 'Test', 'email': 'test@example.com'}
+        form = MyForm(data=form_data)
+        self.assertTrue(form.is_valid())
+        # Dodaj więcej asercji w zależności od oczekiwanych rezultatów
+
+    def test_form_invalid(self):
+        form_data = {'name': '', 'email': 'test@example.com'}
+        form = MyForm(data=form_data)
+        self.assertFalse(form.is_valid())
+        # Dodaj więcej asercji w zależności od oczekiwanych rezultatów
+		
+Testowanie bazy danych
+
+from django.test import TestCase
+from myapp.models import MyModel
+
+class MyDatabaseTests(TestCase):
+    def test_database_interaction(self):
+        MyModel.objects.create(name='Test')
+        self.assertEqual(MyModel.objects.count(), 1)
+        # Dodaj więcej asercji w zależności od oczekiwanych rezultatów

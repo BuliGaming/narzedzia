@@ -1,0 +1,21 @@
+version: '3.3'
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=detector
+      - POSTGRES_USER=detector_user
+      - POSTGRES_PASSWORD=detector_passwd
+    volumes:
+      - /db/:/db/
+    ports:
+      - '32771:5432'
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/code/
+    ports:
+      - '9010:8000'
+    depends_on:
+      - db
